@@ -18,20 +18,4 @@ But not limited to B-tree or B plus tree, it can be expanded horizontally or in 
 
 I think streaming and partitioning are good choices,
 
-sameAs:
-    
-      
-->>>>[mapper]->-->-[mapper]->->-[mapper]->->-[mapper]->->-[mapper] -->-->-->>>>-
- ^       |            |
- |       |            |
- |       ↓            ↓                           [LRU]  -> |    
- |   [partion]  -->[Segments] --> [ARC-cached] ->   +       | [KEY]   -> { keys ...  } 
- |    [Segid] <- - - -|                 |         [LFU]  -> | [VALUE] -> { value ... }
- |    [offset]< - - - |                 |         
- |    [ ... ] < -[Segments...]          ↓      
- |                                [LocalDisk] -> [I/O] ---
- |                                      ↓                                       
- |                                 [mapping] <--> [file/memory]
- | - > <- - - - - - - - - - - - - - - - - - - -  - - <> ↓
-
 I like to think about problems and solve them, not copy them :)
