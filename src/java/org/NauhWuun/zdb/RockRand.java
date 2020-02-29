@@ -1,4 +1,4 @@
-package java.zjdb;
+package org.NauhWuun.zdb;
 
 import java.security.SecureRandom;
 

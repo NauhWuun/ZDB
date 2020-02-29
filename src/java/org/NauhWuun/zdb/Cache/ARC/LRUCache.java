@@ -1,4 +1,4 @@
-package java.zjdb.ZCachedKV.ARC;
+package org.NauhWuun.zdb.Cache.ARC;
 
 import java.util.*;
 
@@ -80,12 +80,7 @@ public class LRUCache<K, V>
 	}
 
 	public boolean isFull() {
-		/**
-		 * set pool size infinity, can fix it, if you need 
-		 */
-	// 	return this.map.size() >= this.size;
-
-		return false;
+		return this.map.size() >= this.size;
 	}
 
 	protected void insertNode(Node<K, V> node) {

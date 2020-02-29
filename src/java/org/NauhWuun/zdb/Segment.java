@@ -1,4 +1,8 @@
-package java.zjdb;
+package org.NauhWuun.zdb;
+
+import org.NauhWuun.zdb.Cache.ARC.ARCache;
+import org.NauhWuun.zdb.Cache.Cached.KEY;
+import org.NauhWuun.zdb.Cache.Cached.VALUE;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,16 +10,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.zjdb.ZCachedKV.ARC.ARCache;
-import java.zjdb.ZCachedKV.Cached.KEY;
-import java.zjdb.ZCachedKV.Cached.VALUE;
 
 public class Segment
 {
     /**
-     * Event Segment Max Size Is 64M
+     * Event Segment Max Size Is 32M
      */
-    private static final int DEFAULTSEGMENTSIZE = (2 << 5) * 1024 * 1024 * 1;
+    private static final int DEFAULTSEGMENTSIZE = (2 << 4) * 1024 * 1024 * 1;
 
     private long id = 0, count, offset;
     private ARCache<KEY, VALUE> cached;
@@ -29,10 +30,10 @@ public class Segment
     }
 
     public Segment Build() {
-        this.dir = new File(String.valueOf(".\\" + id + ".segment"));
+        this.dir = new File(".\\" + id + ".segment");
 
         if (! dir.exists()) {
-            cached = new ARCache<KEY, VALUE>(DEFAULTSEGMENTSIZE);
+            cached = new ARCache<>(DEFAULTSEGMENTSIZE);
 
             try {
                 this.dir.createNewFile();
@@ -51,15 +52,6 @@ public class Segment
         count++;
     }
 
-    /**
-	 * Override, if you knew me, please...
-	 */
-    public <T> Mapper getMapManager() { return null; }
-    public <T> T Sort() { return (T) null; }
-    public void run() {}
-    public <Return, Data> Return Filter(Data _1) { return (Return) null; }
-    public void CloseSegment() {}
-
     public void flushDisk() {
         persist(cached);
     }
@@ -69,9 +61,6 @@ public class Segment
         
 		try {
             stream = new ObjectInputStream(new FileInputStream(dir));
-            /**
-             * type safe the Serializable, can change it
-             */
 			return (ARCache<KEY, VALUE>) stream.readObject();
 		} catch (IOException | ClassNotFoundException e) {
 			return null;
@@ -91,9 +80,6 @@ public class Segment
 
 		try {
             stream = new ObjectOutputStream(new FileOutputStream(dir));
-            /**
-             * type safe the Serializable, can change it
-             */
 			stream.writeObject(caches);
 		} catch (IOException e) {
 			e.getMessage();

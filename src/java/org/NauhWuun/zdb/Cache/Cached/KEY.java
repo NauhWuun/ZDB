@@ -1,8 +1,9 @@
-package java.zjdb.ZCachedKV.Cached;
+package org.NauhWuun.zdb.Cache.Cached;
+
+import org.NauhWuun.zdb.HashAlgorithm;
+import org.NauhWuun.zdb.RockRand;
 
 import java.io.Serializable;
-import java.zjdb.HashAlgorithm;
-import java.zjdb.RockRand;
 
 public class KEY implements Serializable
 {

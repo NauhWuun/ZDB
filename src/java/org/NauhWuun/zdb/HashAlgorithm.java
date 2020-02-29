@@ -1,4 +1,4 @@
-package java.zjdb;
+package org.NauhWuun.zdb;
 
 public final class HashAlgorithm 
 {

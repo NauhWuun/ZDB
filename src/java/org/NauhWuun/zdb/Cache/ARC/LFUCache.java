@@ -1,4 +1,4 @@
-package java.zjdb.ZCachedKV.ARC;
+package org.NauhWuun.zdb.Cache.ARC;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,13 +9,8 @@ public class LFUCache<K, V>
 	protected int size;
 	protected Map<K, Node<K, V>> map = new ConcurrentHashMap<>();
 
-	protected PriorityQueue<Node<K, V>> queue = new PriorityQueue<Node<K, V>>(/* 100, if you has limit requirement */(a, b) -> {
-		int cmp = a.frequency - b.frequency;
-		if (cmp == 0) {
-			cmp = a.order - b.order;
-		}
-		return cmp;
-	});
+	protected PriorityQueue<Node<K, V>> queue = new PriorityQueue<Node<K, V>>(
+			Comparator.comparingInt((Node<K, V> a) -> a.frequency).thenComparingInt(a -> a.order));
 
 	public LFUCache(final int size) {
 		this.size = size;
@@ -68,12 +63,7 @@ public class LFUCache<K, V>
 	}
 
 	public boolean isFull() {
-		/**
-		 * set pool size infinity, can fix it, if you need 
-		 */
-	//	return this.map.size() >= this.size;
-
-		return false;
+		return this.map.size() >= this.size;
 	}
 
 	class Node<K, V> 
