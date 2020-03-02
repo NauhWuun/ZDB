@@ -1,13 +1,7 @@
 package org.NauhWuun.zdb.Cache.ARC;
 
-import java.io.Serializable;
-
-public class ARCache<K, V> implements Serializable
+public class ARCache<K, V>
 {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 9179187107155896383L;
 	protected LRUCache<K, V> lru;
 	protected LFUCache<K, V> lfu;
 	protected int size;

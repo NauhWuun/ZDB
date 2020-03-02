@@ -1,10 +1,15 @@
 package org.NauhWuun.zdb.Cache.Cached;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VALUE
+public class VALUE implements Serializable
 {
+    /**
+     *
+     */
+    private static final long serialVersionUID = -9151492570671786037L;
     private List<Object> params;
 
     public VALUE() {
