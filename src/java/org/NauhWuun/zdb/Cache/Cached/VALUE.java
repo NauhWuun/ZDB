@@ -3,6 +3,9 @@ package org.NauhWuun.zdb.Cache.Cached;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Value Object
+ */
 public class VALUE
 {
     private List<Object> params;
