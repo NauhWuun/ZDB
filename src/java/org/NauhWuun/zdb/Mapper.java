@@ -2,9 +2,6 @@ package org.NauhWuun.zdb;
 
 public class Mapper 
 {
-	/**
-	 * Max Segments Count/512 + 1
-	 */
 	public static int MAXSEGMENTS = (2 << 8) + 1;
 	public static int MINSEGMENTS = 1;
 
@@ -36,7 +33,7 @@ public class Mapper
 		int index = 0;
 		
 		do {
-			segment[(int) (index % SegCounts)].flushDisk();
+			segment[(int) ((index++) % SegCounts)].flushDisk();
 		} while (index < SegCounts);
 	}
 
