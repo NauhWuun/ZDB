@@ -6,31 +6,20 @@ import java.util.List;
 /**
  * Value Object
  */
-public class VALUE
-{
-    private List<Object> params;
+public class VALUE {
+  private List<Object> params;
 
-    public VALUE() {
-        params = new ArrayList<>();
-    }
+  public VALUE() { params = new ArrayList<>(); }
 
-    public void addValue(Object _param) {
-        params.add(_param);
-    }
+  public void addValue(Object _param) { params.add(_param); }
 
-    public void removeValue(Object _param) {
-        params.remove(_param);
-    }
+  public void removeValue(Object _param) { params.remove(_param); }
 
-    public final boolean getValue(Object _param) {
-        return params.contains(_param);
-    }
+  public final boolean getValue(Object _param) {
+    return params.contains(_param);
+  }
 
-    public final List<Object> getAllValues() {
-        return this.params;
-    }
+  public final List<Object> getAllValues() { return this.params; }
 
-    public String toString() {
-        return params.toString();
-    }
+  public String toString() { return params.toString(); }
 }
