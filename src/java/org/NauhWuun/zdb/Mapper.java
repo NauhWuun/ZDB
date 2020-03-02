@@ -47,5 +47,9 @@ public class Mapper
 
 	public final int getSegmentCount() {
 		return this.SegCounts;
-	}
+    }
+    
+    public final int GetMaxSegments() {
+        return MAXSEGMENTS;
+    }
 }
