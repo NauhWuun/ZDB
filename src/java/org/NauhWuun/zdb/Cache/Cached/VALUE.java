@@ -1,38 +1,33 @@
 package org.NauhWuun.zdb.Cache.Cached;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class VALUE implements Serializable
+public class VALUE
 {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 5691821217664005550L;
-    private Object[] params;
-    private int index = 0;
+    private List<Object> params;
 
-    public VALUE(Object params) {
-        this.params[index++] = params;
+    public VALUE() {
+        params = new ArrayList<>();
     }
 
-    public final Object getValue(final int index) {
-        return this.params;
+    public void addValue(Object _param) {
+        params.add(_param);
     }
 
-    public final Object getValue(Object _param) {
-        for (Object param : params) {
-            if (param.hashCode() == _param.hashCode())
-                return param;
-        }
-
-        return null;
+    public void removeValue(Object _param) {
+        params.remove(_param);
     }
 
-    public final Object[] getAllValues() {
+    public final boolean getValue(Object _param) {
+        return params.contains(_param);
+    }
+
+    public final List<Object> getAllValues() {
         return this.params;
     }
 
     public String toString() {
-        return String.valueOf(params);
+        return params.toString();
     }
 }
