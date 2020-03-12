@@ -1,6 +1,11 @@
 package org.NauhWuun.zdb;
 
-public class Mapper 
+import org.NauhWuun.zdb.Cache.Cached.KEY;
+import org.NauhWuun.zdb.Cache.Cached.VALUE;
+
+import java.util.Date;
+
+public class Mapper
 {
 	public static int MAXSEGMENTS = (2 << 8) + 1;
 	public static int MINSEGMENTS = 1;
@@ -13,13 +18,16 @@ public class Mapper
 			throw new IllegalArgumentException("Sorry, more Segments...");
 
 		this.SegCounts = SegCounts;
+		segment = new Segment[SegCounts];
 	}
 
-	public void partition(final int index) {
+	public Segment partition(final int index) {
 		int offset = index / SegCounts;
 		int id = (int) (index % SegCounts);
 
-		segment[id] = new Segment(id, offset).Build();
+		segment[id] = new Segment(id, offset);
+		segment[id].Build();
+		return segment[id];
 	}
 
 	public Segment get(final int index) {

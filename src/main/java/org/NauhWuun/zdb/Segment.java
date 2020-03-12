@@ -27,23 +27,21 @@ public class Segment
         this.id = id;
         this.offset = offset;
         this.unnsed = false;
+
+        cached = new ARCache<>(DEFAULTSEGMENTSIZE);
     }
 
     public Segment Build() {
-        this.dir = new File(".\\" + id + ".segment");
+//        this.dir = new File(".\\" + id + ".segment");
+//
+//        if (! dir.exists()) {
+//            try {
+//                this.dir.createNewFile();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
-        if (! dir.exists()) {
-            cached = new ARCache<>(DEFAULTSEGMENTSIZE);
-
-            try {
-                this.dir.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            cached = fetch();
-        }
-        
         return this;
     }
 
