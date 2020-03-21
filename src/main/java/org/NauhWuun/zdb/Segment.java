@@ -29,18 +29,17 @@ public class Segment
         this.unnsed = false;
 
         cached = new ARCache<>(DEFAULTSEGMENTSIZE);
+	this.dir = new File(".\\" + id + ".segment");
     }
 
     public Segment Build() {
-//        this.dir = new File(".\\" + id + ".segment");
-//
-//        if (! dir.exists()) {
-//            try {
-//                this.dir.createNewFile();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        if (! dir.exists()) {
+            try {
+                this.dir.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         return this;
     }
