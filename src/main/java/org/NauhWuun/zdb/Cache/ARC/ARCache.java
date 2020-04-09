@@ -12,7 +12,7 @@ public class ARCache<K, V>
 		this.lfu = new LFUCache<K, V>(size - size / 2);
 	}
 
-	public void set(K key, V value) {
+	public void put(K key, V value) {
 		if (this.lfu.get(key) != null) {
 			this.lfu.set(key, value);
 		}

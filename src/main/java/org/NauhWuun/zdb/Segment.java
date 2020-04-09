@@ -1,119 +1,103 @@
 package org.NauhWuun.zdb;
 
-import org.NauhWuun.zdb.Cache.ARC.ARCache;
-import org.NauhWuun.zdb.Cache.Cached.KEY;
-import org.NauhWuun.zdb.Cache.Cached.VALUE;
+import java.io.Serializable;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
-public class Segment
+public class Segment<T extends Serializable>
 {
-    /**
-     * Event Segment Max Size Is 32M
-     */
-    private static final int DEFAULTSEGMENTSIZE = (2 << 4) * 1024 * 1024 * 1;
+	public final long id;
+	private Object[] arr;
+	private Integer count;
 
-    private long id = 0, count, offset;
-    private ARCache<KEY, VALUE> cached;
-    private boolean unnsed = true;
-    private File dir;
+	public Segment(int id, int size) {
+		this.id = id;
+		arr = new Object[size];
+	}
 
-    public Segment(final long id, final long offset) {
-        this.id = id;
-        this.offset = offset;
-        this.unnsed = false;
-
-        cached = new ARCache<>(DEFAULTSEGMENTSIZE);
-	this.dir = new File(".\\" + id + ".segment");
-    }
-
-    public Segment Build() {
-        if (! dir.exists()) {
-            try {
-                this.dir.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return this;
-    }
-
-    public void add(final KEY key, final VALUE value) {
-        cached.set(key, value);
-        count++;
-    }
-
-    public void flushDisk() {
-        persist(cached);
-    }
-
-	private ARCache<KEY, VALUE> fetch() {
-        ObjectInputStream stream = null;
-        
-		try {
-            stream = new ObjectInputStream(new FileInputStream(dir));
-			return (ARCache<KEY, VALUE>) stream.readObject();
-		} catch (IOException | ClassNotFoundException e) {
+	public T add(int index, T value) {
+		if (value == null)
+			throw new IllegalArgumentException("add()-ing a null value. Did you mean to use set() instead?");
+		T old = (T) arr[index];
+		if (old == null) {
+			arr[index] = value;
+			if (count != null)
+				count++;
 			return null;
-		} finally {
-			if (stream != null) {
-				try {
-					stream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+		}
+
+		int freeIndex = getNextFreeIndexRight(index);
+		if (freeIndex != -1) {
+			for (int i = freeIndex; i > index; i--) {
+				arr[i] = arr[i - 1];
+			}
+			arr[index] = value;
+		} else {
+			freeIndex = getNextFreeIndexLeft(index);
+			if (freeIndex == -1)
+				throw new IllegalArgumentException("Segment is full");
+			for (int i = freeIndex; i < index - 1; i++) {
+				arr[i] = arr[i + 1];
+			}
+			arr[index - 1] = value;
+		}
+		if (count != null)
+			count++;
+		return old;
+	}
+
+	public T set(int index, T value) {
+		T old = (T) arr[index];
+		arr[index] = value;
+		if (old == null && value != null && count != null)
+			count++;
+		if (old != null && value == null && count != null)
+			count--;
+		return old;
+	}
+
+	protected int getNextFreeIndexRight(int start) {
+		start++;
+		while (start < arr.length && arr[start] != null) {
+			start++;
+		}
+		if (start == arr.length) {
+			return -1;
+		}
+		return start;
+	}
+
+	protected int getNextFreeIndexLeft(int start) {
+		start--;
+		while (start >= 0 && arr[start] != null) {
+			start--;
+		}
+		if (start < 0) {
+			return -1;
+		}
+		return start;
+	}
+
+	public T get(int index) {
+		return (T) arr[index];
+	}
+
+	public int getCount() {
+		if (count == null) {
+			count = 0;
+			for (Object elem : arr) {
+				if (elem != null)
+					count++;
 			}
 		}
+		return count;
 	}
 
-	private boolean persist(ARCache<KEY, VALUE> caches) {
-        ObjectOutputStream stream = null;
-
-		try {
-            stream = new ObjectOutputStream(new FileOutputStream(dir));
-			stream.writeObject(caches);
-		} catch (IOException e) {
-			e.getMessage();
-        } finally {
-			if (stream != null) {
-				try {
-					stream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-            }
-        }
-        
-		return true;
+	protected String print() {
+		StringBuilder res = new StringBuilder();
+		res.append(arr[0]);
+		for (int i = 1; i < arr.length; i++) {
+			res.append(",");
+			res.append(arr[i]);
+		}
+		return res.toString();
 	}
-
-    public VALUE get(KEY key) {
-        return cached.get(key);
-    }
-
-    public ARCache<KEY, VALUE> getCached() {
-        return this.cached;
-    }
-
-    public final long getCount() {
-        return this.count;
-    }
-
-    public final long getId() {
-        return this.id;
-    }
-
-    public final long getOffset() {
-        return this.offset;
-    }
-
-    public final boolean getUnnsed() {
-        return this.unnsed;
-    }
 }
