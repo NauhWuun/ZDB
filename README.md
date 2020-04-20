@@ -1,7 +1,6 @@
 # ZDB
-JAVA KV Embedded DataBase
+JAVA K-V DataBase
 
 # TODO
 
-The efficient JAVA language KV embedded database integrates the btree algorithm and the most efficient cache ARC. 
-Can be used in a production environment.
+The efficient JAVA language K-V database integrates the btree algorithm and the most efficient cache ARC. 
