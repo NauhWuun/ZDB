@@ -5,7 +5,7 @@
     <artifactId>ZDB</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
-    <description>Embedded Database.</description>
+    <description>Java KeyValues Database.</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
