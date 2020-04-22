@@ -20,10 +20,18 @@ public class PackedMemoryArray<T extends Serializable>
 	public T get(long index) {
 		long segment = index / segmentSize;
 		int offset = (int) (index % segmentSize);
-		return manager.fetch(segment).get(offset);
+
+		try {
+			return manager.fetch(segment).get(offset);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("get()-ing a null value, please checking index and value");
+		}
 	}
 
 	public void add(long index, T value) {
+		if (value == null)
+			return;
+
 		long id = index / segmentSize;
 		int offset = (int) (index % segmentSize);
 		Segment<T> segment = manager.fetch(id);

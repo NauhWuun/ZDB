@@ -8,7 +8,8 @@ public class PackedMemoryArrayTest
 {
 	@Test
 	public void test_shrinkAndExpand(){
-		PackedMemoryArray<Integer> arr = new PackedMemoryArray<>("tmp", 8);
+		PackedMemoryArray<Integer> arr = new PackedMemoryArray<>("tmp", 9);
+
 		arr.add(1, 10);
 		arr.add(2, 30);
 		arr.add(2, 20);
@@ -16,19 +17,14 @@ public class PackedMemoryArrayTest
 		arr.add(6, 40);
 		arr.add(7, 50);
 		arr.add(5, 35);
-		assertArrayEquals(new String[]{ "null,10,20,30,35,40,50,60" }, arr.print());
+		arr.add(3, 35000);
+
+		System.out.println(arr.get(1));
+		System.out.println(arr.get(2));
+
 		arr.add(1, 0);
-		assertArrayEquals(new String[]{
-				"null,0,null,10,null,20,null,30",
-				"null,35,null,40,null,50,null,60"
-		}, arr.print());
-		arr.set(9, null);
-		assertArrayEquals(new String[]{
-				"null,0,null,10,null,20,null,30",
-				"null,null,null,40,null,50,null,60"
-		}, arr.print());
-		arr.set(13, null);
-		assertArrayEquals(new String[]{ "null,null,0,10,20,30,40,60" }, arr.print());
+		arr.set(9, 33);
+		arr.set(13, 324234234);
 	}
 
 	@Test

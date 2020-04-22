@@ -33,7 +33,7 @@ public class ARCache<K, V>
 				return value;
 			}
 
-			if ((Boolean) this.lru.get(key)) {
+			if (this.lru.get(key) != null) {
 				int lruSize = this.lru.getSize();
 				if (lruSize < this.size) {
 					this.lru.expand();
@@ -41,7 +41,7 @@ public class ARCache<K, V>
 				}
 			}
 
-			if ((Boolean) this.lfu.get(key)) {
+			if (this.lfu.get(key) != null) {
 				int lfuSize = lfu.getSize();
 				if (lfuSize < this.size) {
 					this.lfu.expand();
