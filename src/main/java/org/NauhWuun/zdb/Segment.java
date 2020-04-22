@@ -32,8 +32,9 @@ public class Segment<T extends Serializable>
 			arr[index] = value;
 		} else {
 			freeIndex = getNextFreeIndexLeft(index);
-			if (freeIndex == -1)
+			if (freeIndex == -1) {
 				throw new IllegalArgumentException("Segment is full");
+			}
 			for (int i = freeIndex; i < index - 1; i++) {
 				arr[i] = arr[i + 1];
 			}

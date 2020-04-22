@@ -38,7 +38,7 @@ public class LRUCache<K, V>
 	}
 
 	public V remove(K key) {
-		Node<K, V> node = this.map.get(key);
+		Node<K, V> node = this.map.get(Objects.requireNonNull(key));
 		if (node == null) {
 			throw new IllegalArgumentException(key.toString());
 		}

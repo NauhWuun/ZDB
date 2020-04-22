@@ -8,28 +8,15 @@ public class PackedMemoryArrayTest
 {
 	@Test
 	public void test_shrinkAndExpand(){
-		PackedMemoryArray<Integer> arr = new PackedMemoryArray<>("tmp", 9);
+		PackedMemoryArray<Integer> arr = new PackedMemoryArray<>();
 
 		arr.add(1, 10);
 		arr.add(2, 30);
-		arr.add(2, 20);
-		arr.add(7, 60);
-		arr.add(6, 40);
-		arr.add(7, 50);
-		arr.add(5, 35);
-		arr.add(3, 35000);
-
-		System.out.println(arr.get(1));
-		System.out.println(arr.get(2));
-
-		arr.add(1, 0);
-		arr.set(9, 33);
-		arr.set(13, 324234234);
 	}
 
 	@Test
 	public void test_dontShrinkIfRemovingFromDifferentSegments(){
-		PackedMemoryArray<Integer> arr = new PackedMemoryArray<>("tmp", 8);
+		PackedMemoryArray<Integer> arr = new PackedMemoryArray<>();
 		arr.add(1, 10);
 		arr.add(2, 30);
 		arr.add(2, 20);

@@ -4,16 +4,16 @@ import java.io.Serializable;
 
 public class PackedMemoryArray<T extends Serializable>
 {
-	int segmentSize;
 	int segmentCount;
 	int height;
+	final int segmentSize = 1024 * 1024 * 300;
+	final String dataPath = "./Data";
 	SegmentManager<T> manager;
 
-	public PackedMemoryArray(String dir, int segmentSize) {
-		this.segmentSize = segmentSize;
+	public PackedMemoryArray() {
 		segmentCount = 1;
 		height = 1;
-		manager = new CachingManager<>(3, new LocalDiskManager<>(dir));
+		manager = new CachingManager<>(Integer.MAX_VALUE, new LocalDiskManager<>(dataPath));
 		manager.persist(new Segment<>(0, segmentSize));
 	}
 
@@ -29,12 +29,12 @@ public class PackedMemoryArray<T extends Serializable>
 	}
 
 	public void add(long index, T value) {
-		if (value == null)
-			return;
-
 		long id = index / segmentSize;
 		int offset = (int) (index % segmentSize);
 		Segment<T> segment = manager.fetch(id);
+		if (segment == null)
+			throw new IllegalArgumentException("not find value, maybe Segment is full");
+
 		segment.add(offset, value);
 		if (mustRebalance(segment)) {
 			rebalance(segment);
