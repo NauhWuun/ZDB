@@ -34,4 +34,3 @@ public class CachingManager<T extends Serializable> implements SegmentManager<T>
 		realManager.remove(index);
 	}
 }
-

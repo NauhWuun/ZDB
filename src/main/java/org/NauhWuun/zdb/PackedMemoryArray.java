@@ -120,27 +120,10 @@ public class PackedMemoryArray<T extends Serializable>
 		shuffle(0, segmentCount * segmentSize, count);
 	}
 
-	/**
-	 * Reshuffles all non-empty elements in that given range, so that they have a
-	 * constant gap between them. The last element in the range is always set.
-	 *
-	 * @param from Inclusive
-	 * @param to   Exclusive
-	 */
 	private void shuffle(long from, long to) {
 		shuffle(from, to, squash(from, to));
 	}
 
-	/**
-	 * Shuffles all non-empty elements in an already squashed range, so that
-	 * they have a constant gap between them. The last element in the range is
-	 * always set.
-	 *
-	 * @param from  Inclusive
-	 * @param to    Exclusive
-	 * @param count The amount of non-empty elements in the range, squashed
-	 *              at the beginning of the range.
-	 */
 	private void shuffle(long from, long to, long count) {
 		long j = count + from - 1;
 		long i = to - 1;
@@ -155,13 +138,6 @@ public class PackedMemoryArray<T extends Serializable>
 		}
 	}
 
-	/**
-	 * Moves all non-empty elements in the given range to the beginning of the range.
-	 *
-	 * @param from Inclusive
-	 * @param to   Exclusive
-	 * @return The amount of non-empty elements in the range.
-	 */
 	private long squash(long from, long to) {
 		long i = from;
 		long j = i;
