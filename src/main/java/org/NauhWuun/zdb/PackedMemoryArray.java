@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 public class PackedMemoryArray<T extends Serializable>
 {
+	int segmentSize;
 	int segmentCount;
 	int height;
-	final int segmentSize = 1024 * 1024 * 300;
 	final String dataPath = "./Data";
 	SegmentManager<T> manager;
 
-	public PackedMemoryArray() {
-		segmentCount = 1;
+	public PackedMemoryArray(int segmentSize) {
+		this.segmentSize = segmentSize;
 		height = 1;
 		manager = new CachingManager<>(Integer.MAX_VALUE, new LocalDiskManager<>(dataPath));
 		manager.persist(new Segment<>(0, segmentSize));
