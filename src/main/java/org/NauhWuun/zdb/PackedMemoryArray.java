@@ -1,5 +1,6 @@
 package org.NauhWuun.zdb;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 public class PackedMemoryArray<T extends Serializable>
@@ -7,13 +8,14 @@ public class PackedMemoryArray<T extends Serializable>
 	int segmentSize;
 	int segmentCount;
 	int height;
+
 	final String dataPath = "./Data";
 	SegmentManager<T> manager;
 
-	public PackedMemoryArray(int segmentSize) {
+	public PackedMemoryArray(int segmentSize) throws IOException {
 		this.segmentSize = segmentSize;
 		height = 1;
-		manager = new CachingManager<>(Integer.MAX_VALUE, new LocalDiskManager<>(dataPath));
+		manager = new CachingManager<>(segmentSize, new LocalDiskManager<>(dataPath));
 		manager.persist(new Segment<>(0, segmentSize));
 	}
 
@@ -162,7 +164,7 @@ public class PackedMemoryArray<T extends Serializable>
 		};
 	}
 
-	protected String[] print() {
+	protected String[] Print() {
 		String[] res = new String[segmentCount];
 		for (int i = 0; i < segmentCount; i++) {
 			res[i] = manager.fetch(i).print();

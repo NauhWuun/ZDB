@@ -10,7 +10,7 @@ public class Segment<T extends Serializable>
 
 	public Segment(int id, int size) {
 		this.id = id;
-		arr = new Object[size];
+		this.arr = new Object[size];
 	}
 
 	public T add(int index, T value) {

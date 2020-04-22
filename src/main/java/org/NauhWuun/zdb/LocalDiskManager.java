@@ -1,15 +1,20 @@
 package org.NauhWuun.zdb;
 
 import java.io.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class LocalDiskManager<T extends Serializable> implements SegmentManager<T>
 {
 	private File dir;
 
-	public LocalDiskManager(String path) {
+	public LocalDiskManager(String path) throws IOException {
 		this.dir = new File(path);
-		if (!dir.exists() || !dir.isDirectory())
-			throw new IllegalArgumentException("The specified path does not exist or is not a directory.");
+		if (! dir.exists() || ! dir.isDirectory()) {
+			Files.createDirectories(Paths.get(path));
+		}
 	}
 
 	@Override
