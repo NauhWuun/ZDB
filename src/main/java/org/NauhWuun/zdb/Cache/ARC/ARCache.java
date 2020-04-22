@@ -20,6 +20,8 @@ public class ARCache<K, V> {
     }
 
     public V get(K key) {
+        if (key == null)
+            throw new IllegalArgumentException("the key not NULL, please re-check keys");
         V value = null;
 
         try {
