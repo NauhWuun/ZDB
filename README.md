@@ -8,4 +8,4 @@ The efficient JAVA language K-V database integrates the co-btree algorithm and t
 [lodborg](https://github.com/lodborg/cache-oblivious-btree)
 
 # Efficient Cache Algorithm
-cached algorithm: lookat ARCache files
+cached algorithm: ARC
